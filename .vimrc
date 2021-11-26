@@ -6,6 +6,7 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 syntax on
@@ -38,6 +39,8 @@ endif
 set nowrap
 "Gets rid of lag when exiting modes and entering other
 set timeout timeoutlen=1000 ttimeoutlen=100
+"Number of line to keep above and below cursor
+set scrolloff=10
 
 set colorcolumn=80
 
@@ -81,3 +84,6 @@ function! SetStatusColorsNERDTree()
     hi NERDTreeGitStatusUnmerged ctermfg=darkmagenta
 endfunction
 
+"GitGutter
+"Remove GitGutter default mappings
+let g:gitgutter_map_keys = 0
