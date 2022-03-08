@@ -1,4 +1,4 @@
-"vim-plug installation required
+"vim-plug installation required (https://github.com/junegunn/vim-plug)
 call plug#begin('~/.vim/plugged')
 "Place plugins here
 Plug 'scrooloose/nerdtree'
@@ -17,6 +17,8 @@ set background=dark
 colorscheme iceberg
 "Vim airline theme (download required : https://github.com/cocopon/iceberg.vim)
 let g:airline_theme='iceberg' 
+"Transparent vim
+hi Normal ctermbg=NONE
 
 set noerrorbells
 "Tabs setup 
@@ -24,7 +26,7 @@ set tabstop=4 softtabstop=4 shiftwidth=4
 set expandtab
 set smartindent
 "Puts line where cursor is
-set cursorline
+"set cursorline
 "For searching paterns
 set incsearch
 "Line numbers + relative numbers from cursor
@@ -42,13 +44,15 @@ set timeout timeoutlen=1000 ttimeoutlen=100
 "Number of line to keep above and below cursor
 set scrolloff=10
 
+"Put vertical line on column 80
 set colorcolumn=80
 
 "Set LEADER to ","
-let mapleader="," 
+"let mapleader="," 
 "REMAPS
-nnoremap ; :NERDTreeFocus<CR>:call SetStatusColorsNERDTree()<CR>
+nnoremap ; :NERDTreeFocus<CR>
 nnoremap <C-f> /
+nnoremap gb gT
 vnoremap yy "+y
 
 "TREE-PLUGIN
@@ -84,6 +88,40 @@ function! SetStatusColorsNERDTree()
     hi NERDTreeGitStatusUnmerged ctermfg=darkmagenta
 endfunction
 
+"Set git status colors on tree
+autocmd FileType nerdtree call SetStatusColorsNERDTree()
+
 "GitGutter
 "Remove GitGutter default mappings
 let g:gitgutter_map_keys = 0
+
+"Markdown to PDF -> (requires -> pandoc, texlive-latex-extra)
+"To presentation
+function! Md2Presentation()
+    "%:p:r -> removes file extension
+    silent! execute "! pandoc % -t beamer -o %:p:r.pdf"
+    execute "redraw!"
+    "Create pptx
+    silent! execute "! pandoc % -o %:p:r.pptx"
+    execute "redraw!"
+    "Preview
+    silent! execute "!evince %:p:r.pdf &"
+    execute "redraw!"
+endfunction
+
+"To regular PDF
+function! Md2Pdf()
+    silent! execute "!pandoc % -o %:p:r.pdf"
+    "Get rid of Press Enter to Continue
+    execute "redraw!"
+    "Preview
+    silent! execute "!evince %:p:r.pdf &"
+    execute "redraw!"
+endfunction
+
+"Make presentation from markdown
+autocmd FileType markdown nnoremap <F6> :call Md2Presentation()<CR>
+"Make regular pdf from markdown
+autocmd FileType markdown nnoremap <F5> :call Md2Pdf()<CR>
+
+
