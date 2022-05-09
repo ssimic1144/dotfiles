@@ -100,10 +100,6 @@ let g:gitgutter_map_keys = 0
 function! Md2Presentation()
     "%:p:r -> removes file extension
     silent! execute "! pandoc % -t beamer -o %:p:r.pdf"
-    execute "redraw!"
-    "Create pptx
-    silent! execute "! pandoc % -o %:p:r.pptx"
-    execute "redraw!"
     "Preview
     silent! execute "!evince %:p:r.pdf &"
     execute "redraw!"
@@ -112,10 +108,9 @@ endfunction
 "To regular PDF
 function! Md2Pdf()
     silent! execute "!pandoc % -o %:p:r.pdf"
-    "Get rid of Press Enter to Continue
-    execute "redraw!"
     "Preview
     silent! execute "!evince %:p:r.pdf &"
+    "Get rid of Press Enter to Continue
     execute "redraw!"
 endfunction
 
