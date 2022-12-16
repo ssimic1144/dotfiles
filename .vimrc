@@ -54,6 +54,7 @@ nnoremap ; :NERDTreeFocus<CR>
 nnoremap <C-f> /
 nnoremap gb gT
 vnoremap yy "+y
+nnoremap <C-S-e> :tabe
 
 "TREE-PLUGIN
 "Hide brackets - Git
